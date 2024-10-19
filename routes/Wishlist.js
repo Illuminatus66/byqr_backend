@@ -4,7 +4,7 @@ import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.post("/fetch", auth, fetchWishlist);
+router.post("/fetch/:_id", auth, fetchWishlist);
 router.post("/add", auth, addToWishlist);
 router.post("/remove", auth, removeFromWishlist);
 

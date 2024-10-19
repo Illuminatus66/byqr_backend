@@ -4,11 +4,12 @@ export const fetchCart = async (req, res) => {
   const { cart_no } = req.body;
   try {
     const cart = await Cart.findOne({ cart_no });
-    res.status(200).json({ message: 'Product added to cart successfully', cart });
+    res.status(200).json(cart);
   } catch (error) {
     res.status(500).json({ message: 'Something went wrong...' });
   }
 };
+
 // Add to Cart checks if the product already exists in the user's cart and if it does
 // then it just increments the qty of the product. If the product doesn't exist in the 
 // cart then it adds the desired qty to the cart, which is then saved back to the database.
@@ -21,7 +22,7 @@ export const addToCart = async (req, res) => {
     if (existingProduct) {
       existingProduct.qty += qty;
     } else {
-      cart.products.push({ pr_id: product_id, qty: qty });
+      cart.products.push({ pr_id: pr_id, qty: qty });
     }
 
     await cart.save();
