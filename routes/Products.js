@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/fetchall", fetchAllProducts);
 router.post("/admin/add", authAdmin, addProduct);
-router.post("/admin/delete", authAdmin, deleteProduct);
+router.delete("/admin/delete/:id", authAdmin, deleteProduct);
 router.patch("/admin/edit", authAdmin, editProduct);
 
 export default router;

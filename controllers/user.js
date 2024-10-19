@@ -122,7 +122,7 @@ export const updateUser = async (req, res) => {
         { expiresIn: "2h" }
       );
     }
-    const { wishlist, role, ...pureUser } = updatedUser;
+    const { role, wishlist, ...pureUser } = updatedUser;
     res.status(200).json({
       result: pureUser,
       token: token || null,

@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-
 import cartRoutes from "./routes/Cart.js";
 import productsRoutes from "./routes/Products.js";
 import userRoutes from "./routes/Users.js";

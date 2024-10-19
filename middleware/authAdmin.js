@@ -6,7 +6,7 @@ const authAdmin = (req, res, next) => {
       
       // Check if the role is admin
       if (decoded.role !== 'admin') {
-        return res.status(403).json({ message: "Access denied" });
+        return res.status(403).json({ message: "Access denied. You're not an admin! IMPOSTOR!!" });
       }
       
       req._id = decoded._id;
