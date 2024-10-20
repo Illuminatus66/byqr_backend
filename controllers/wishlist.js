@@ -1,9 +1,9 @@
 import User from '../models/User.js';
 
 export const fetchWishlist = async (req, res) => {
-  const { _id } = req.params;
+  const { id } = req.params;
   try {
-    const user = await User.findById(_id);
+    const user = await User.findById(id);
     const wishlist = user.wishlist
 
     res.status(200).json(wishlist);

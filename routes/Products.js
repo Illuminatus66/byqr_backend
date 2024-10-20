@@ -4,7 +4,7 @@ import authAdmin from "../middleware/authAdmin.js";
 
 const router = express.Router();
 
-router.post("/fetchall", fetchAllProducts);
+router.get("/fetchall", fetchAllProducts);
 router.post("/admin/add", authAdmin, addProduct);
 router.delete("/admin/delete/:id", authAdmin, deleteProduct);
 router.patch("/admin/edit", authAdmin, editProduct);

@@ -4,7 +4,7 @@ import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.post("/fetch", auth, fetchCart);
+router.get("/fetch", auth, fetchCart);
 router.post("/add", auth, addToCart);
 router.post("/remove",auth, removeFromCart);
 router.patch("/updateqty", auth, updateQty);
