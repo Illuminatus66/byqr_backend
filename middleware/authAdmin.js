@@ -1,10 +1,10 @@
 import jwt from "jsonwebtoken";
 const authAdmin = (req, res, next) => {
     try {
-      const token = req.headers.authorization.split(" ")[1];
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const token = req.headers.authorization.split(" ")[1]; // Extracting token from "Bearer <token>"
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);  // Verifying token using JWT secret
       
-      // Check if the role is admin
+      // Checking if the role is admin
       if (decoded.role !== 'admin') {
         return res.status(403).json({ message: "Access denied. You're not an admin! IMPOSTOR!!" });
       }

@@ -13,6 +13,9 @@ export const adminLogin = async (req, res) => {
       if (!isPasswordCrt) {
         return res.status(400).json({ message: "Invalid credentials" });
       }
+      if (existinguser.role !== 'admin') {
+        return res.status(403).json({ message: "Unauthorized access" });
+      }
   
       const token = jwt.sign(
         {
@@ -24,9 +27,7 @@ export const adminLogin = async (req, res) => {
         { expiresIn: "2h" }
       );
   
-      const {wishlist, ...pureUser} = existinguser
-  
-      res.status(200).json({ result: pureUser, token });
+      res.status(200).json({ result: existinguser, token: token });
     } catch (error) {
       res.status(500).json("Something went wrong...");
     }

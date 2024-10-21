@@ -8,11 +8,23 @@ import wishlistRoutes from "./routes/Wishlist.js";
 import connectDB from "./connectMongoDb.js";
 
 dotenv.config();
+
+const allowedOrigins = [
+  'https://byqradmin.netlify.app',
+];
+const corsOptions = {
+  origin: allowedOrigins,
+  credentials: true, 
+};
+
+app.use(cors(corsOptions));
+
 connectDB();
+
 const app = express();
+
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
 
 app.use("/user", userRoutes);
 app.use("/wishlist", wishlistRoutes);
