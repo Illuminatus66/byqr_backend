@@ -9,6 +9,10 @@ import connectDB from "./connectMongoDb.js";
 
 dotenv.config();
 
+connectDB();
+
+const app = express();
+
 const allowedOrigins = [
   'https://byqradmin.netlify.app',
 ];
@@ -18,10 +22,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
-connectDB();
-
-const app = express();
 
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
