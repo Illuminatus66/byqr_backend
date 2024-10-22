@@ -26,7 +26,7 @@ export const adminLogin = async (req, res) => {
         process.env.JWT_SECRET,
         { expiresIn: "2h" }
       );
-  
+      console.log ('API log', { result: existinguser, token: token });
       res.status(200).json({ result: existinguser, token: token });
     } catch (error) {
       res.status(500).json("Something went wrong...");
