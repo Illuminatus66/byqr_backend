@@ -1,7 +1,7 @@
 import Cart from "../models/Cart.js";
 
 export const fetchCart = async (req, res) => {
-  const { cart_no } = req.body;
+  const { cart_no } = req.params;
   try {
     const cart = await Cart.findOne({ cart_no });
     res.status(200).json(cart);
