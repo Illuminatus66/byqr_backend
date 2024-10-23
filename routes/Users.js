@@ -8,6 +8,6 @@ const router = express.Router();
 router.post("/signup", signup);
 router.post("/login", login);
 router.post("/admin/login", adminLogin);
-router.patch("/update", auth, updateUser);
+router.patch("/update/:_id", auth, updateUser);
 
 export default router;
