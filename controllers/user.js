@@ -32,7 +32,7 @@ export const signup = async (req, res) => {
       { expiresIn: "2h" }
     );
 
-    const {role, wishlist, ...pureUser} = newuser
+    const {role, wishlist, ...pureUser} = newuser.toObject();
 
     res.status(200).json({ result: pureUser, token });
   } catch (error) {
@@ -70,7 +70,7 @@ export const login = async (req, res) => {
       { expiresIn: "2h" }
     );
 
-    const {role, wishlist, ...pureUser} = existinguser
+    const {role, wishlist, ...pureUser} = existinguser.toObject();
 
     res.status(200).json({ result: pureUser, token });
   } catch (error) {
@@ -122,7 +122,7 @@ export const updateUser = async (req, res) => {
         { expiresIn: "2h" }
       );
     }
-    const { role, wishlist, ...pureUser } = updatedUser;
+    const { role, wishlist, ...pureUser } = updatedUser.toObject();
     res.status(200).json({
       result: pureUser,
       token: token || null,
