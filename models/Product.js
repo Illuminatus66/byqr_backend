@@ -8,6 +8,15 @@ const productSchema = new Schema({
   description: { type: String, required: true },
   category: { type: String, required: true },
   stock: { type: Number, required: true },
+  brand: { type: String, required: true },
+  frameMaterial: { type: String, required: true },
+  weight: { type: Number, required: true },
+  wheelSize: { type: Number, required: true },
+  gearSystem: { type: String, required: true },
+  brakeType: { type: String, required: true },
+  suspension: { type: String, required: true },
+  tyreType: { type: String, required: true },
+  warranty: { type: String, required: true },
   date_added: { type: Date, default: Date.now }
 });
 

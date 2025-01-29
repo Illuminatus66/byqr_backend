@@ -13,12 +13,10 @@ connectDB();
 
 const app = express();
 
-const allowedOrigins = [
-  'https://byqradmin.netlify.app',
-];
+const allowedOrigins = ["https://byqradmin.netlify.app"];
 const corsOptions = {
   origin: allowedOrigins,
-  credentials: true, 
+  credentials: true,
 };
 
 app.use(cors(corsOptions));

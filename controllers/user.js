@@ -18,7 +18,7 @@ export const signup = async (req, res) => {
       password: hashedPassword,
       phno,
       wishlist: [],
-      role: 'user',
+      role: "user",
     });
 
     await Cart.create({
@@ -32,7 +32,7 @@ export const signup = async (req, res) => {
       { expiresIn: "2h" }
     );
 
-    const {role, wishlist, ...pureUser} = newuser.toObject();
+    const { role, wishlist, ...pureUser } = newuser.toObject();
 
     res.status(200).json({ result: pureUser, token });
   } catch (error) {
@@ -70,7 +70,7 @@ export const login = async (req, res) => {
       { expiresIn: "2h" }
     );
 
-    const {role, wishlist, ...pureUser} = existinguser.toObject();
+    const { role, wishlist, ...pureUser } = existinguser.toObject();
 
     res.status(200).json({ result: pureUser, token });
   } catch (error) {

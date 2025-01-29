@@ -1,5 +1,10 @@
 import express from "express";
-import { fetchAllProducts, addProduct, deleteProduct, editProduct } from "../controllers/products.js";
+import {
+  fetchAllProducts,
+  addProduct,
+  deleteProduct,
+  editProduct,
+} from "../controllers/products.js";
 import authAdmin from "../middleware/authAdmin.js";
 
 const router = express.Router();

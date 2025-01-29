@@ -6,18 +6,20 @@ export const fetchCart = async (req, res) => {
     const cart = await Cart.findOne({ cart_no });
     res.status(200).json(cart);
   } catch (error) {
-    res.status(500).json({ message: 'Something went wrong...' });
+    res.status(500).json({ message: "Something went wrong..." });
   }
 };
 
 // Add to Cart checks if the product already exists in the user's cart and if it does
-// then it just increments the qty of the product. If the product doesn't exist in the 
+// then it just increments the qty of the product. If the product doesn't exist in the
 // cart then it adds the desired qty to the cart, which is then saved back to the database.
 export const addToCart = async (req, res) => {
   const { cart_no, pr_id, qty } = req.body;
   try {
     const cart = await Cart.findOne({ cart_no });
-    const existingProduct = cart.products.find(product => product.pr_id.toString() === pr_id);
+    const existingProduct = cart.products.find(
+      (product) => product.pr_id.toString() === pr_id
+    );
 
     if (existingProduct) {
       existingProduct.qty += qty;
@@ -26,9 +28,9 @@ export const addToCart = async (req, res) => {
     }
 
     await cart.save();
-    res.status(200).json({ message: 'Product added to cart successfully' });
+    res.status(200).json({ message: "Product added to cart successfully" });
   } catch (error) {
-    res.status(500).json({ message: 'Something went wrong...' });
+    res.status(500).json({ message: "Something went wrong..." });
   }
 };
 
@@ -39,12 +41,14 @@ export const removeFromCart = async (req, res) => {
   try {
     const cart = await Cart.findOne({ cart_no });
 
-    cart.products = cart.products.filter(product => product.pr_id.toString() !== pr_id);
+    cart.products = cart.products.filter(
+      (product) => product.pr_id.toString() !== pr_id
+    );
 
     await cart.save();
-    res.status(200).json({ message: 'Product removed from cart successfully' });
+    res.status(200).json({ message: "Product removed from cart successfully" });
   } catch (error) {
-    res.status(500).json({ message: 'Something went wrong...' });
+    res.status(500).json({ message: "Something went wrong..." });
   }
 };
 
@@ -55,15 +59,15 @@ export const updateQty = async (req, res) => {
   try {
     const cart = await Cart.findOne({ cart_no });
 
-    cart.products.forEach(product => {
+    cart.products.forEach((product) => {
       if (product.pr_id.toString() === pr_id) {
         product.qty = qty;
       }
     });
 
     await cart.save();
-    res.status(200).json({ message: 'Product quantity updated.' });
+    res.status(200).json({ message: "Product quantity updated." });
   } catch (error) {
-    res.status(500).json({ message: 'Something went wrong.' });
+    res.status(500).json({ message: "Something went wrong." });
   }
 };
