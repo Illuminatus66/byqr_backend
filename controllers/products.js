@@ -27,6 +27,7 @@ export const addProduct = async (req, res) => {
     suspension,
     tyreType,
     warranty,
+    stores,
   } = req.body;
 
   try {
@@ -47,6 +48,7 @@ export const addProduct = async (req, res) => {
       suspension,
       tyreType,
       warranty,
+      stores,
     });
 
     await newProduct.save();
@@ -75,8 +77,26 @@ export const deleteProduct = async (req, res) => {
 };
 
 export const editProduct = async (req, res) => {
-  const { _id, name, price, thumbnail, imgs, description, category, stock } =
-    req.body;
+  const {
+    _id,
+    name,
+    price,
+    thumbnail,
+    imgs,
+    description,
+    category,
+    stock,
+    brand,
+    frameMaterial,
+    weight,
+    wheelSize,
+    gearSystem,
+    brakeType,
+    suspension,
+    tyreType,
+    warranty,
+    stores,
+  } = req.body;
 
   try {
     const updatedProduct = await Product.findByIdAndUpdate(
@@ -89,6 +109,16 @@ export const editProduct = async (req, res) => {
         description,
         category,
         stock,
+        brand,
+        frameMaterial,
+        weight,
+        wheelSize,
+        gearSystem,
+        brakeType,
+        suspension,
+        tyreType,
+        warranty,
+        stores,
       },
       { new: true, runValidators: true }
     );

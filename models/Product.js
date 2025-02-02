@@ -17,6 +17,11 @@ const productSchema = new Schema({
   suspension: { type: String, required: true },
   tyreType: { type: String, required: true },
   warranty: { type: String, required: true },
+  stores: [{
+    name: { type: String, required: true },
+    lat: { type: Number, required: true },
+    long: { type: Number, required: true }
+  }],
   date_added: { type: Date, default: Date.now }
 });
 
