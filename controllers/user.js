@@ -18,6 +18,7 @@ export const signup = async (req, res) => {
       password: hashedPassword,
       phno,
       wishlist: [],
+      addresses: [],
       role: "user",
     });
 
@@ -80,7 +81,7 @@ export const login = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   const { _id } = req.params;
-  const { name, email, phno } = req.body;
+  const { name, email, phno, addresses } = req.body;
 
   try {
     const existingUser = await User.findById(_id);
@@ -107,6 +108,7 @@ export const updateUser = async (req, res) => {
     existingUser.name = name || existingUser.name;
     existingUser.email = email || existingUser.email;
     existingUser.phno = phno || existingUser.phno;
+    existingUser.addresses = addresses || existingUser.addresses;
 
     const updatedUser = await existingUser.save();
 
