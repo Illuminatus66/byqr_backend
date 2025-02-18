@@ -30,7 +30,7 @@ export const signup = async (req, res) => {
     const token = jwt.sign(
       { email: newuser.email, _id: newuser._id, role: newuser.role },
       process.env.JWT_SECRET,
-      { expiresIn: "2h" }
+      { expiresIn: "24h" }
     );
 
     const { role, wishlist, ...pureUser } = newuser.toObject();
@@ -68,7 +68,7 @@ export const login = async (req, res) => {
         role: existinguser.role,
       },
       process.env.JWT_SECRET,
-      { expiresIn: "2h" }
+      { expiresIn: "24h" }
     );
 
     const { role, wishlist, ...pureUser } = existinguser.toObject();
@@ -121,7 +121,7 @@ export const updateUser = async (req, res) => {
           role: updatedUser.role,
         },
         process.env.JWT_SECRET,
-        { expiresIn: "2h" }
+        { expiresIn: "24h" }
       );
     }
     const { role, wishlist, ...pureUser } = updatedUser.toObject();
