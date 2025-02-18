@@ -4,11 +4,12 @@ import {
   getOrdersByUser,
   saveOrderToDatabaseAfterVerification,
 } from "../controllers/razorpay.js";
+import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.post("/create-razorpay-order", createRazorpayOrder);
-router.get("/get-orders/:user_id", getOrdersByUser);
-router.post("/verify-payment-and-save-order", saveOrderToDatabaseAfterVerification);
+router.post("/create-razorpay-order", auth, createRazorpayOrder);
+router.get("/get-orders/:user_id", auth, getOrdersByUser);
+router.post("/verify-payment-and-save-order", auth, saveOrderToDatabaseAfterVerification);
 
 export default router;
