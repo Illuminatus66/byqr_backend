@@ -132,7 +132,7 @@ export const saveOrderToDatabaseAfterVerification = async (req, res) => {
       { new: true, upsert: true }
     );
     console.log("[SUCCESS] Order saved successfully:", userOrder);
-    const latestOrder = userOrder.orders[userOrder.orders.length - 1];
+    const latestOrder = userOrder.orders[userOrder.orders.length - 1].toObject();
 
     const {
       razorpay_order_id: _,
@@ -150,23 +150,18 @@ export const saveOrderToDatabaseAfterVerification = async (req, res) => {
 
 export const getOrdersByUser = async (req, res) => {
   try {
-    console.log("[INFO] Fetching orders for user:", req.params.user_id);
     const { user_id } = req.params;
 
     if (!user_id) {
-      console.log("[ERROR] Missing user ID");
       return res.status(400).json({ message: "User ID is required" });
     }
-
-    console.log("[INFO] Querying database for user orders...");
 
     const userOrders = await Order.findOne({ user_id });
 
     if (!userOrders || userOrders.orders.length === 0) {
-      console.log("[INFO] No orders found for user:", user_id);
       return res.status(404).json({ message: "No orders found for this user" });
     }
-    console.log("[SUCCESS] Orders retrieved successfully, filtering sensitive data...");
+
     const orders = userOrders.orders.map((order) => {
       const {
         razorpay_order_id,
@@ -176,7 +171,7 @@ export const getOrdersByUser = async (req, res) => {
       } = order.toObject();
       return filteredOrder;
     });
-    console.log("[SUCCESS] Orders being passed to frontend:", orders);
+
     return res.status(200).json(orders);
   } catch (error) {
     console.error("Error fetching orders:", error);
