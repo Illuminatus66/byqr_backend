@@ -12,13 +12,17 @@ const razorpay = new Razorpay({
 const generateReceiptNumber = () => {
   const now = new Date();
 
+  // The server is located in the US so I had to add an offset of
+  //  5 and a half hours to get the time in IST
+  now.setMinutes(now.getMinutes() + 330);
+
   // Format date and time: YYYYMMDDHHMM
   const dateTime = now.toISOString().replace(/[-:T]/g, "").slice(0, 12);
 
   // Generate random number between 1 and 1000
-  const randomNumber = Math.floor(Math.random() * 1000) + 1;
+  const randomNumber = Math.floor(Math.random() * 1000).toString().padStart(3, "0");
 
-  return `${dateTime}${randomNumber.toString().padStart(3, "0")}`;
+  return `${dateTime}${randomNumber}`;
 };
 
 export const createRazorpayOrder = async (req, res) => {
@@ -34,7 +38,7 @@ export const createRazorpayOrder = async (req, res) => {
     }
     console.log("[SUCCESS] Amount validation passed");
     const options = {
-      amount: amount * 100,
+      amount: Math.round(amount * 100),
       currency: "INR",
       receipt: generateReceiptNumber(),
       partial_payment: false,
