@@ -67,17 +67,6 @@ export const saveOrderToDatabaseAfterVerification = async (req, res) => {
       backend_order_id,
     } = req.body;
 
-    console.log("[INFO] Extracted order details:", {
-      user_id,
-      receipt,
-      razorpay_payment_id,
-      razorpay_order_id,
-      razorpay_signature,
-      total_amount,
-      backend_order_id,
-      productCount: products?.length,
-    });
-
     if (
       !user_id ||
       !receipt ||
@@ -89,11 +78,9 @@ export const saveOrderToDatabaseAfterVerification = async (req, res) => {
       !backend_order_id ||
       products.length === 0
     ) {
-      console.log("[ERROR] Invalid data received");
       return res.status(400).json({ message: "Invalid data" });
     }
 
-    console.log("[INFO] Validating Razorpay signature...");
     // This took a lot of time because the documentation on Razorpay's Node.js
     // integration is not clear on how razorpay_signature should be verified
     // It seems like they have an easier way to verify the signature using this
@@ -106,14 +93,9 @@ export const saveOrderToDatabaseAfterVerification = async (req, res) => {
       process.env.RAZORPAY_KEY_SECRET
     );
 
-    console.log(`[INFO] Payment verification result: ${isPaymentVerified}`);
-
     if (!isPaymentVerified) {
-      console.log("[ERROR] Razorpay signature verification failed");
       return res.status(400).json({ message: "Invalid payment signature" });
     }
-
-    console.log("[SUCCESS] Payment verified, updating database...");
 
     const newOrder = {
       receipt,
@@ -124,14 +106,12 @@ export const saveOrderToDatabaseAfterVerification = async (req, res) => {
       total_amount,
     };
 
-    console.log("[INFO] Creating/updating order in database for user:", user_id);
-
     const userOrder = await Order.findOneAndUpdate(
       { user_id },
       { $push: { orders: newOrder } },
       { new: true, upsert: true }
     );
-    console.log("[SUCCESS] Order saved successfully:", userOrder);
+
     const latestOrder = userOrder.orders[userOrder.orders.length - 1].toObject();
 
     const {
@@ -140,10 +120,9 @@ export const saveOrderToDatabaseAfterVerification = async (req, res) => {
       razorpay_signature: ___,
       ...filteredOrder
     } = latestOrder;
-    console.log("[SUCCESS] Order being passed to frontend:", filteredOrder);
+
     return res.status(201).json(filteredOrder);
   } catch (error) {
-    console.error("[ERROR] Failed to save order after verification:", error)
     return res.status(500).json({ message: "Server error" });
   }
 };
@@ -174,7 +153,6 @@ export const getOrdersByUser = async (req, res) => {
 
     return res.status(200).json(orders);
   } catch (error) {
-    console.error("Error fetching orders:", error);
     return res.status(500).json({ message: "Server error" });
   }
 };
