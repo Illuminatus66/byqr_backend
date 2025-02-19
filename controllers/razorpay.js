@@ -28,24 +28,20 @@ const generateReceiptNumber = () => {
 export const createRazorpayOrder = async (req, res) => {
   try {
     const { amount } = req.body;
-    console.log("[INFO] Received request to create Razorpay order", {
-      amount,
-      type: typeof amount,
-    });
+
     if (!amount || amount <= 0) {
-      console.log("[ERROR] Invalid amount received");
       return res.status(400).json({ message: "Invalid amount" });
     }
-    console.log("[SUCCESS] Amount validation passed");
+
     const options = {
       amount: Math.round(amount * 100),
       currency: "INR",
       receipt: generateReceiptNumber(),
       partial_payment: false,
     };
-    console.log("[INFO] Creating order with options:", options);
+
     const order = await razorpay.orders.create(options);
-    console.log("[SUCCESS] Order created:", order);
+
     return res.json({
       status: order.status,
       order_id: order.id,
@@ -54,16 +50,12 @@ export const createRazorpayOrder = async (req, res) => {
       key: process.env.RAZORPAY_KEY_ID,
     });
   } catch (error) {
-    console.error("[ERROR] Failed to create Razorpay order:", error);
     res.status(500).json({ message: "Failed to create order" });
   }
 };
 
 export const saveOrderToDatabaseAfterVerification = async (req, res) => {
   try {
-    console.log(
-      "[INFO] Received request to save order after payment verification"
-    );
     const {
       user_id,
       receipt,
@@ -71,7 +63,7 @@ export const saveOrderToDatabaseAfterVerification = async (req, res) => {
       razorpay_order_id,
       razorpay_signature,
       products,
-      totalAmount,
+      total_amount,
       backend_order_id,
     } = req.body;
 
@@ -81,7 +73,7 @@ export const saveOrderToDatabaseAfterVerification = async (req, res) => {
       razorpay_payment_id,
       razorpay_order_id,
       razorpay_signature,
-      totalAmount,
+      total_amount,
       backend_order_id,
       productCount: products?.length,
     });
@@ -93,7 +85,7 @@ export const saveOrderToDatabaseAfterVerification = async (req, res) => {
       !razorpay_order_id ||
       !razorpay_signature ||
       !products ||
-      !totalAmount ||
+      !total_amount ||
       !backend_order_id ||
       products.length === 0
     ) {
@@ -129,7 +121,7 @@ export const saveOrderToDatabaseAfterVerification = async (req, res) => {
       razorpay_order_id,
       razorpay_signature,
       products,
-      total_amount: totalAmount,
+      total_amount,
     };
 
     console.log("[INFO] Creating/updating order in database for user:", user_id);
