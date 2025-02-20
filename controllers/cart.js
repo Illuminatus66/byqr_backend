@@ -71,3 +71,20 @@ export const updateQty = async (req, res) => {
     res.status(500).json({ message: "Something went wrong." });
   }
 };
+
+export const clearCart = async (req, res) => {
+  const { cart_no } = req.params;
+  try {
+    const cart = await Cart.findOne({ cart_no });
+
+    if (!cart) {
+      return res.status(404).json({ message: "Cart not found" });
+    }
+
+    cart.products = [];
+    await cart.save();
+    res.status(200).json({ message: "Cart cleared successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong..." });
+  }
+};
